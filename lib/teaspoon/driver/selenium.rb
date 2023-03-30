@@ -23,7 +23,7 @@ module Teaspoon
       end
 
       def run_specs(runner, url)
-        driver = ::Selenium::WebDriver.for(driver_options[:client_driver])
+        driver = ::Selenium::WebDriver.for driver_options[:client_driver], options: driver_options[:options]
         driver.navigate.to(url)
 
         ::Selenium::WebDriver::Wait.new(driver_options).until do
@@ -42,6 +42,7 @@ module Teaspoon
       def driver_options
         @driver_options ||= HashWithIndifferentAccess.new(
           client_driver: :firefox,
+          options: nil,
           timeout: Teaspoon.configuration.driver_timeout.to_i,
           interval: 0.01,
           message: "Timed out"
